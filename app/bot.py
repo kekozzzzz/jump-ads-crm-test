@@ -10,8 +10,6 @@ from aiogram.types import Message
 from app import db
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
-WEBHOOK_URL = os.environ.get("WEBHOOK_URL", "")
-CRM_URL = WEBHOOK_URL.rsplit("/telegram/webhook", 1)[0] if WEBHOOK_URL else ""
 
 bot = Bot(token=BOT_TOKEN) if BOT_TOKEN else None
 dp = Dispatcher(storage=MemoryStorage())
@@ -56,10 +54,7 @@ async def request_handler(message: Message, state: FSMContext):
         source="telegram_bot",
     )
     await state.clear()
-    text = "Спасибо! Заявка принята, скоро с вами свяжутся."
-    if CRM_URL:
-        text += f"\n\nУвидеть все заявки можно здесь: {CRM_URL}"
-    await message.answer(text)
+    await message.answer("Спасибо! Заявка принята, скоро с вами свяжутся.")
 
 
 @dp.message(F.text)
