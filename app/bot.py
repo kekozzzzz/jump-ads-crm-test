@@ -47,16 +47,14 @@ async def contact_handler(message: Message, state: FSMContext):
 @dp.message(LeadForm.request)
 async def request_handler(message: Message, state: FSMContext):
     data = await state.get_data()
-    lead_id = db.create_lead(
+    db.create_lead(
         name=data["name"],
         contact=data["contact"],
         request=message.text,
         source="telegram_bot",
     )
     await state.clear()
-    await message.answer(
-        f"Спасибо! Заявка #{lead_id} принята, скоро с вами свяжутся."
-    )
+    await message.answer("Спасибо! Заявка принята, скоро с вами свяжутся.")
 
 
 @dp.message(F.text)
